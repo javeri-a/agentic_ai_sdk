@@ -7,7 +7,6 @@ from agents import AsyncOpenAI, OpenAIChatCompletionsModel, Agent, Runner, RunCo
 
 load_dotenv()
 
-# Setup function
 @st.cache_resource
 def setup():
     MODEL_NAME = "gemini-2.0-flash"
@@ -43,14 +42,14 @@ def setup():
 
 assistant, config = setup()
 
-# --- Page config ---
+
 st.set_page_config(
-    page_title="DevCompass - Developer Guide",
+    page_title="DevGuider - Developer Guide",
     page_icon="💻",
     layout="wide"
 )
 
-# --- Sidebar ---
+
 with st.sidebar:
     st.title("🚀 DevCompass")
     st.write("**Your traditional yet modern guide to the world of coding!**")
@@ -74,7 +73,7 @@ with st.sidebar:
     st.markdown("- [GitHub Explore](https://github.com/explore)")
 
     st.markdown("---")
-    st.write("✨ *Built with ❤️ by Mam Javeria*")
+    st.write("✨ *Built with ❤️ by  Javeria*")
 
 # --- Page Title ---
 st.title("💬 Developer Career Chatbot")
@@ -139,7 +138,7 @@ with st.expander("📖 Frequently Asked Questions"):
     st.write("**Q4:** *What if I get stuck?*")
     st.write("💬 Always ask questions, join communities, and keep practicing.")
 
-# --- Feedback Form ---
+
 st.markdown("---")
 st.subheader("💌 Feedback")
 with st.form("feedback_form"):
