@@ -1,3 +1,4 @@
+
 import streamlit as st
 from dotenv import load_dotenv
 import os
@@ -29,7 +30,7 @@ def setup():
     )
 
     assistant = Agent(
-        name="DevCompass",
+        name="DevGuider",
         instructions=(
             "You are DevCompass, a warm, encouraging, and clear guide for aspiring developers. "
             "You only answer questions related to developer careers, programming, software engineering, "
@@ -42,16 +43,14 @@ def setup():
 
 assistant, config = setup()
 
-
 st.set_page_config(
     page_title="DevGuider - Developer Guide",
     page_icon="💻",
     layout="wide"
 )
 
-
 with st.sidebar:
-    st.title("🚀 DevCompass")
+    st.title("DevGuider")
     st.write("**Your traditional yet modern guide to the world of coding!**")
     st.markdown("---")
 
@@ -73,13 +72,10 @@ with st.sidebar:
     st.markdown("- [GitHub Explore](https://github.com/explore)")
 
     st.markdown("---")
-    st.write("✨ *Built with ❤️ by  Javeria*")
+    st.write("✨ *Built with ❤️ by Javeria*")
 
-# --- Page Title ---
-st.title("💬 Developer Career Chatbot")
-st.subheader("Welcome! Let DevCompass guide you through your programming journey.")
-
-# --- Quote of the Day ---
+st.title("💬 Developer Guider Chatbot")
+st.subheader("Welcome! Let DevGuider guide you through your programming journey.")
 st.success("💡 *Quote of the day:* *“First, solve the problem. Then, write the code.” — John Johnson*")
 
 # --- Helper: Check if input is dev-related ---
@@ -93,27 +89,45 @@ def is_dev_related(user_input):
     user_input_lower = user_input.lower()
     return any(word in user_input_lower for word in dev_keywords)
 
+# --- Helper: Check if greeting ---
+def is_greeting(user_input):
+    greetings = ["hello", "hi", "hey", "salam", "assalamualaikum"]
+    user_input_lower = user_input.lower()
+    return any(word in user_input_lower for word in greetings)
+
 # --- Chat Area ---
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Display chat history
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-# Chat input
 if prompt := st.chat_input("Type your question about developer careers here..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
+    # Display placeholder for "thinking..."
+    with st.chat_message("assistant"):
+        thinking_placeholder = st.empty()
+        thinking_placeholder.markdown("🤔 *Thinking...*")
+
     async def run_agent():
+        # Handle greeting specially
+        if is_greeting(prompt):
+            return (
+                "👋 Hello! I’m DevGuider, your guide to the world of coding and developer careers. "
+                "How may I assist you today?"
+            )
+
+        # Handle non-dev related input
         if not is_dev_related(prompt):
             return (
                 "🙏 I’m sorry, but I’m only designed to guide you about developer careers, coding, and programming. "
                 "Please ask me something related to software development!"
             )
+
         result = await Runner.run(
             assistant,
             prompt,
@@ -123,9 +137,10 @@ if prompt := st.chat_input("Type your question about developer careers here...")
 
     response = asyncio.run(run_agent())
 
+    # Replace the placeholder with the final answer
+    thinking_placeholder.markdown(response)
+
     st.session_state.messages.append({"role": "assistant", "content": response})
-    with st.chat_message("assistant"):
-        st.markdown(response)
 
 # --- FAQ Section ---
 with st.expander("📖 Frequently Asked Questions"):
@@ -137,13 +152,3 @@ with st.expander("📖 Frequently Asked Questions"):
     st.write("💬 No! Many developers are self-taught or have bootcamp certificates.")
     st.write("**Q4:** *What if I get stuck?*")
     st.write("💬 Always ask questions, join communities, and keep practicing.")
-
-
-st.markdown("---")
-st.subheader("💌 Feedback")
-with st.form("feedback_form"):
-    feedback = st.text_area("Was this helpful? Any suggestions?")
-    submitted = st.form_submit_button("Submit")
-    if submitted:
-        st.success("Thank you for your feedback! ✨")
-
