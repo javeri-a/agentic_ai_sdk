@@ -10,3 +10,17 @@ agent = Agent(
     tools=[weather],
     model= "03-mini"
 )
+
+
+from agents import function_tool
+
+@function_tool
+def chef(recipe_name: str):
+    return f"The recipe for {recipe_name} is: ..."
+
+agent  = Agent(
+    name = "Chef Agent",
+    instructions="You are an agent that provides cooking recipes.",
+    tools=[chef],
+    model="03-mini"
+)
