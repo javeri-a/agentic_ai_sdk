@@ -40,7 +40,7 @@ def setup():
             "If asked anything unrelated, politely decline and guide the user back to developer topics. "
             "If the user provides code, always explain accurately what the code does. "
             "If the question is asked in any language, ALWAYS reply in English."
-            
+
         )
     )
 
@@ -118,7 +118,7 @@ with st.sidebar:
     st.caption("✨ Crafted with devotion by Javeria")
 
 # --- Greeting ---
-st.title("💬 Developer Guider")
+st.title("💬 DevGuider")
 st.subheader("*Your professional, warm coding mentor.*")
 
 if "messages" not in st.session_state:
@@ -167,7 +167,7 @@ if prompt := st.chat_input("Ask your coding question here..."):
         async def run_agent():
             if is_greeting(prompt):
                 return (
-                    "👋 Hello again! I am always ready to assist you with your coding journey."
+                    "👋 Hello! I am always ready to assist you with your coding journey."
                 )
             if not is_dev_related(prompt):
                 return (
