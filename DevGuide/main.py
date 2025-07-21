@@ -40,6 +40,7 @@ def setup():
             "If asked anything unrelated, politely decline and guide the user back to developer topics. "
             "If the user provides code, always explain accurately what the code does. "
             "If the question is asked in any language, ALWAYS reply in English."
+            
         )
     )
 
@@ -112,21 +113,8 @@ with st.sidebar:
 
     st.write("---")
 
-    # 🌐 Contact & Community
-    st.subheader("🤝 Contact & Community")
-    st.markdown("""
-    - [🌐 Facebook](https://facebook.com/)  
-    - [💼 LinkedIn](https://linkedin.com/)  
-    - [🐱 GitHub](https://github.com/)  
-    """, unsafe_allow_html=True)
-
-    st.write("---")
-
-    # 🌙 Light/Dark Mode Toggle (Fake)
-    mode = st.radio("Theme Mode:", ["🌞 Light", "🌙 Dark"])
-    st.caption(f"Mode selected: **{mode}** — *(Toggle coming soon!)*")
-
-    st.write("---")
+ 
+    
     st.caption("✨ Crafted with devotion by Javeria")
 
 # --- Greeting ---
@@ -137,7 +125,7 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
     st.session_state.messages.append({
         "role": "assistant",
-        "content": "👋 Hello! I am DevGuider — your personal guide for coding, developer careers, and practical help. Ask me anything!"
+        "content": "👋 Hello! I am DevGuider your personal guide for coding, developer careers, and practical help. Ask me anything!"
     })
 
 # --- Keyword Checks ---
@@ -146,7 +134,14 @@ def is_dev_related(user_input):
         "developer", "development", "programming", "programmer",
         "coding", "code", "python", "javascript", "frontend",
         "backend", "fullstack", "software", "engineer", "career",
-        "web development", "app development", "AI", "ML", "roadmap"
+        "web development", "app development", "AI", "ML", "roadmap", "HTML", "CSS",
+        "SQL", "database", "API", "framework", "library", "git",
+        "version control", "agile", "scrum", "devops", "cloud",
+        "docker", "kubernetes", "CI/CD", "testing", "debugging",
+        "algorithm", "data structure", "architecture", "design pattern",
+        "architecture", "best practices", "performance", "optimization",
+        "security", "scalability", "accessibility", "usability", "UX", "UI",
+        "mobile development", "web app", "software engineering", "tech stack",
     ]
     return any(word in user_input.lower() for word in dev_keywords)
 
@@ -167,7 +162,7 @@ if prompt := st.chat_input("Ask your coding question here..."):
 
     with st.chat_message("assistant"):
         thinking_placeholder = st.empty()
-        thinking_placeholder.markdown("⏳ *Thinking carefully...*")
+        thinking_placeholder.markdown(" *Thinking...*")
 
         async def run_agent():
             if is_greeting(prompt):
@@ -176,7 +171,7 @@ if prompt := st.chat_input("Ask your coding question here..."):
                 )
             if not is_dev_related(prompt):
                 return (
-                    "🙏 I apologise — I answer only coding, programming and developer questions. Please ask something relevant."
+                    "🙏 I apologise I answer only coding, programming and developer questions. Please ask something relevant."
                 )
             result = await Runner.run(assistant, prompt, run_config=config)
             return result.final_output
