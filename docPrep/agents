@@ -1,0 +1,167 @@
+#  1️⃣ Agents kya hain?
+# Matn:
+# Agents are the core building block in your apps. An agent is a large language model (LLM), configured with instructions and tools.
+
+# Roman Urdu mein:
+# Agents asal mein aapki app ka dil hain. Jaise aik insaan ka dimaagh hota hai, yeh LLM — Large Language Model — aik digital dimaagh hai.
+# Isko aap hidayat (instructions) dete hain aur auzaar (tools) dete hain.
+# Phir yeh aap ke liye kaam karta hai.
+
+# Real Life Example:
+# Jaise aik munshi ko aap kehte hain, "Mehmanon ki daftar mein entry karo aur agar koi barsaat ka haal poochay to mausam ka daftar dekh ke batao."
+# Yahan munshi = Agent
+# Daftar = Tools
+# Aapka hukm = Instructions
+
+# 📌 2️⃣ Basic Configuration
+# Matn:
+
+# name — zaroori hai, is se agent ka naam pehchan hota hai.
+
+# instructions — iska matlab hai is agent ko kya tareeqa-e-kaar diya gaya hai.
+
+# model — yeh batata hai ke kis model ka dimaagh use hoga. Jaise o3-mini ya o4-mini.
+
+# tools — woh cheezen jo yeh agent apne kaam mein istemal karega.
+
+# Roman Urdu mein:
+# Har agent ko pehchan chahiye hoti hai — jaise insaan ka naam.
+# Usko bataya jata hai kya karna hai.
+# Aur usko kuch hathiyar diye jatay hain — jaise get_weather ka tool, jo mausam bata dega.
+
+# 📌 3️⃣ Example Code
+# python
+# Copy
+# Edit
+# from agents import Agent, ModelSettings, function_tool
+
+# @function_tool
+# def get_weather(city: str) -> str:
+#     return f"The weather in {city} is sunny"
+
+# agent = Agent(
+#     name="Haiku agent",
+#     instructions="Always respond in haiku form",
+#     model="o3-mini",
+#     tools=[get_weather],
+# )
+# Roman Urdu mein:
+# Is code mein humne aik get_weather naam ka tool banaya.
+# Ye tool bas aik shehar ka naam leta hai aur mausam batata hai.
+
+# Humne aik agent banaya — Haiku agent — jisko hidayat mili hai ke har baat haiku (japani sher) ki tarah kahe.
+# Aur iske paas get_weather ka tool hai.
+
+# 📌 4️⃣ Context
+# Matn:
+# Agents aik context type par depend karte hain. Context woh cheez hai jo har agent aur tool ko diya jata hai. Ismein data hota hai — jaise user ki ID, ya user pro hai ya nahi.
+
+# Roman Urdu mein:
+# Aap samjhein Context jaise aik file hai jisme user ki purani maloomaat hai.
+# Har agent ko woh file di jati hai — taki agar zarurat ho to woh user ke hawalay se faisla le.
+
+# Real Life Example:
+# Jaise aik dukan dar ke paas daftar hota hai ke yeh grahak purana hai, badi khareed hai karta ya nahi.
+
+# 📌 5️⃣ Context Code
+# python
+# Copy
+# Edit
+# @dataclass
+# class UserContext:
+#     uid: str
+#     is_pro_user: bool
+
+#     async def fetch_purchases() -> list[Purchase]:
+#         return ...
+# Roman Urdu mein:
+# Yahan UserContext aik daftar hai.
+# Isme user ki ID aur yeh maloom hota hai ke woh Pro User hai ya aam.
+# Isme aik tareeqa bhi hai fetch_purchases jo kharidari ki list leke aata hai.
+
+# 📌 6️⃣ Output Types
+# Matn:
+# Agar aap chahte hain ke agent text ke bajaye kuch structured output de — jaise aik object ya list — to output_type istemal hota hai.
+
+# Roman Urdu mein:
+# Matlab agent bas simple text na de, balkay mukammal form mein data de — jaise aik daftar ya record.
+
+# Example:
+# Jaise CalendarEvent:
+
+# python
+# Copy
+# Edit
+# class CalendarEvent(BaseModel):
+#     name: str
+#     date: str
+#     participants: list[str]
+
+# agent = Agent(
+#     name="Calendar extractor",
+#     instructions="Extract calendar events from text",
+#     output_type=CalendarEvent,
+# )
+# Ab yeh agent sirf text nahi dega, balkay aik CalendarEvent ka data structure dega.
+
+# 📌 7️⃣ Handoffs
+# Matn:
+# Aik agent doosre agents ko kaam de sakta hai. Isay handoff kehte hain.
+
+# Roman Urdu mein:
+# Jaise manager kaam munshi ko de de, aur munshi accountant ko.
+# Aise hi aik agent dusre agent ko kaam de sakta hai.
+
+# Example:
+# Booking ka agent, refund ka agent aur aik triage agent jo faisla karta hai k kis ko kaam diya jaye.
+
+# 📌 8️⃣ Dynamic Instructions
+# Matn:
+# Aap instructions aik function se bhi de sakte hain. Woh har dafa naye instructions bana sakta hai context dekh kar.
+
+# Roman Urdu mein:
+# Jaise aik munshi ko kehna: "Agar customer VIP hai to zyada izzat se baat karo."
+# Yani instructions static nahi — woh user ya waqt ke mutabiq badal sakti hain.
+
+# 📌 9️⃣ Hooks
+# Matn:
+# Agar aap agent ke chalne pe kuch aur karna chahte hain, jaise logging, to aap hooks use kar sakte hain.
+
+# Roman Urdu mein:
+# Jaise aik guard jo har dafa record likh le — "Yeh kaam kis waqt hua, kis ke kehne pe."
+
+# 📌 🔟 Guardrails
+# Matn:
+# Aap user ke input pe checks laga sakte hain ke woh theek hai ya nahi.
+
+# Roman Urdu mein:
+# Jaise darban jo dekhta hai ke guest theek hai ya nahi — agar theek nahi to andar nahi jaane deta.
+
+# 📌 1️⃣1️⃣ Cloning
+# Matn:
+# Aap aik agent ko clone kar sakte hain aur naye naam ya hidayat de sakte hain.
+
+# Roman Urdu mein:
+# Jaise aik purane dastaveez ki copy bana ke usme nayi shartain dal do.
+
+# Example:
+# Pirate agent → Robot agent bana diya bas instructions badal ke.
+
+# 📌 1️⃣2️⃣ Forcing Tool Use
+# Matn:
+# Kabhi kabhi aap chahte hain ke tool zaroor istemal ho. Iske liye ModelSettings.tool_choice hota hai.
+
+# Roman Urdu mein:
+# Jaise aap keh dein: "Munshi! Har haal mein daftar dekh ke jawab dena."
+# Yani agent ko majboor kar diya ke tool use kare.
+
+# ✅ Mukammal Faisla
+# Yeh tha Agents ka bunyadi tareeqa — har baat purani misaalon se jor kar.
+# Agar aap bilkul beginner bhi hain, toh bas samajh lein:
+# Agent = digital dimaagh
+# Instructions = hukm
+# Tools = hathiyar
+# Context = daftar
+# Handoffs = kaam doosre ko dena
+# Output Types = kaghzi format
+# Hooks & Guardrails = deewar aur darban

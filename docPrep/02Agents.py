@@ -52,3 +52,63 @@ triage_agent = Agent(
     ),
     handoffs=[booking_agent, refund_agent],
 )
+
+#_____________________________________________________________
+#             Contextual Agent
+#_____________________________________________________________
+
+
+@function_tool
+def suggest_discount(is_pro_user: bool) -> str:
+    if is_pro_user:
+        return "Aap ko 20% Pro discount milay ga."
+    else:
+        return "Aap ke liye standard 5% discount hai."
+#_____________________________________________________________
+#                  Context Class
+#_____________________________________________________________
+from dataclasses import dataclass
+@dataclass
+class UserContext:
+    uid: str
+    name: str
+    is_pro_user: bool
+
+    # Dummy method for demonstration
+    def greet(self) -> str:
+        return f"Assalamualaikum {self.name}! Aap ka ID: {self.uid}."
+
+
+
+# ------------ 📌 4) Agent Definition ------------
+def dynamic_instructions(context, agent) -> str:
+    """
+    Har run pe instructions banain jo user ka naam aur Pro status ka zikar karein.
+    """
+    greeting = context.context.greet()
+    pro_status = "Pro user hain" if context.context.is_pro_user else "Pro user nahi hain"
+    return f"{greeting} Aap {pro_status}. Agar discount chahiye to tool chalao."
+
+
+agent = Agent[UserContext](
+    name="Shopping Assistant",
+    instructions=dynamic_instructions,
+    tools=[suggest_discount],
+)
+
+# ------------ 📌 5) Runner Call Example ------------
+# Normally, yeh run() kisi framework se call hota hai.
+# Yahan sirf samjhane ke liye pseudo-call likh rahe hain.
+
+# Example context bana lo:
+context = UserContext(
+    uid="U123",
+    name="Javeria",
+    is_pro_user=True
+)
+
+# Ab agent ko run karna:
+# Pseudo-code:
+# result = await Runner.run(agent, context=context, input="Mujhe discount do")
+
+# Aap framework ke hisaab se `Runner` ka async run method use karein.
