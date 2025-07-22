@@ -40,3 +40,31 @@ result = await Runner.run(
 print (result.final_output)
 
 
+result = await Runner.run(
+    agent,
+    "What state is it in?",
+    session=session
+)
+print(result.final_output) 
+
+#_____________________________________________________________
+#                Get all conversation items:
+#_____________________________________________________________
+# You can get all the conversation items in the session by calling the `get_conversation` method
+items = await session.get_items()
+
+
+
+#______________________________________________________________
+# ➕ Add new items yourself:
+#______________________________________________________________
+
+await session.add_items([
+    {"role": "user", "content": "Hello"},
+    {"role": "assistant", "content": "Hi there!"}
+])
+
+#
+#_______________________________________________________________
+
+last_item = await session.pop_item()
