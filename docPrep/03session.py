@@ -6,3 +6,15 @@
 # Real-life example:
 # Imagine you are talking to a shopkeeper about buying cloth. If you come back tomorrow, the shopkeeper remembers your measurements, color choices, and price range — so you don’t need to repeat yourself.
 # That memory is your session.
+
+
+
+#_______________________________________________________________
+#             Session Example
+#_______________________________________________________________
+
+from agents import SQLiteSession
+
+session = SQLiteSession("session_id")
+session = SQLiteSession("session_id", "my_database.db")
+
