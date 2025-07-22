@@ -18,3 +18,25 @@ from agents import SQLiteSession
 session = SQLiteSession("session_id")
 session = SQLiteSession("session_id", "my_database.db")
 
+
+
+#______________________________________________________________
+#        Running an Agent with Session
+#______________________________________________________________
+
+
+from agents import Agent, Runner,SQLiteSession
+import asyncio
+agent = Agent(name = "Shopping Assistant",
+              instructions = "You are a helpful shopping assistant.")
+session = SQLiteSession("session_id", "my_database.db")
+
+result = await Runner.run(
+    agent, "Hello, I need help with my shopping.",
+    session = session
+
+)
+
+print (result.final_output)
+
+
