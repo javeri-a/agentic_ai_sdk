@@ -40,3 +40,30 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+
+
+
+
+
+    import asyncio
+from agents import Agent, Runner, SQLiteSession
+
+async def main():
+    agent = Agent(name="FixBot")
+    session = SQLiteSession("correction_test")
+
+    result = await Runner.run(agent, "What's 5 + 5?", session=session)
+    print("User: What's 5 + 5?")
+    print("Assistant:", result.final_output)
+
+    # Ghalti sudharnay ke liye undo
+    await session.pop_item()  # assistant response
+    await session.pop_item()  # user input
+
+    result = await Runner.run(agent, "What's 5 + 7?", session=session)
+    print("User: What's 5 + 7?")
+    print("Assistant:", result.final_output)
+
+if __name__ == "__main__":
+    asyncio.run(main())
