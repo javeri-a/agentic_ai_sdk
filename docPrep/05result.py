@@ -67,3 +67,31 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+
+
+
+
+
+
+
+
+    # loop_chat.py
+import asyncio
+from agents import Agent, Runner, SQLiteSession
+
+async def main():
+    agent = Agent(name="LoopBot", instructions="Be helpful and brief.")
+    session = SQLiteSession("loop_user")
+
+    print("Type 'exit' to stop.\n")
+
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() == "exit":
+            break
+        result = await Runner.run(agent, user_input, session=session)
+        print("Assistant:", result.final_output)
+
+if __name__ == "__main__":
+    asyncio.run(main())
