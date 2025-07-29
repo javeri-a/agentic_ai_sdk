@@ -116,3 +116,17 @@ async def main():
 
 asyncio.run(main())
 
+
+async def main():
+    agent = Agent (name = "Assistant")
+    session = SQLiteSession("session_id", "my_database.bd")
+    print("User: Where is the Golden Gate Bridge?")
+    result = await Runner.run(agent, "Where is the Golden Gate Bridge?", session=session)
+    print("Assistant:", result.final_output)
+
+    print("User: What state is it in?")
+    result = await Runner.run(agent, "What state is it in?", session=session)
+    print("Assistant:", result.final_output)
+
+asyncio.run(main())
+
